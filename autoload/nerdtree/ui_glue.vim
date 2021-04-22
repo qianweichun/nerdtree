@@ -109,7 +109,7 @@ endfunction
 
 "FUNCTION: s:initCustomOpenArgs() {{{1
 function! s:initCustomOpenArgs() abort
-    let l:defaultOpenArgs = {'file': {'reuse': 'all', 'where': 'p', 'keepopen':!nerdtree#closeTreeOnOpen()}, 'dir': {}}
+    let l:defaultOpenArgs = {'file': {'reuse': 'all', 'where': 't', 'keepopen':!nerdtree#closeTreeOnOpen()}, 'dir': {}}
     try
         let g:NERDTreeCustomOpenArgs = get(g:, 'NERDTreeCustomOpenArgs', {})
         call  extend(g:NERDTreeCustomOpenArgs, l:defaultOpenArgs, 'keep')
@@ -144,13 +144,13 @@ endfunction
 "FUNCTION: s:activateFileNode() {{{1
 "handle the user activating a tree node
 function! s:activateFileNode(node) abort
-    call a:node.activate({'reuse': 'all', 'where': 'p', 'keepopen': !nerdtree#closeTreeOnOpen()})
+    call a:node.activate({'reuse': 'all', 'where': 't', 'keepopen': !nerdtree#closeTreeOnOpen()})
 endfunction
 
 "FUNCTION: s:activateBookmark(bookmark) {{{1
 "handle the user activating a bookmark
 function! s:activateBookmark(bm) abort
-    call a:bm.activate(b:NERDTree, !a:bm.path.isDirectory ? {'where': 'p', 'keepopen': !nerdtree#closeTreeOnOpen()} : {})
+    call a:bm.activate(b:NERDTree, !a:bm.path.isDirectory ? {'where': 't', 'keepopen': !nerdtree#closeTreeOnOpen()} : {})
 endfunction
 
 " FUNCTION: nerdtree#ui_glue#bookmarkNode(name) {{{1
@@ -372,8 +372,9 @@ function! s:handleLeftClick() abort
             if char !~# g:NERDTreeUI.MarkupReg()
                 if currentNode.path.isDirectory
                     call currentNode.activate()
+                    wincmd p
                 else
-                    call currentNode.activate({'reuse': 'all', 'where': 'p', 'keepopen':!nerdtree#closeTreeOnOpen()})
+                    call currentNode.activate({'reuse': 'all', 'where': 't', 'keepopen':!nerdtree#closeTreeOnOpen()})
                 endif
                 return
             endif
